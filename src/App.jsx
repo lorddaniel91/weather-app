@@ -23,7 +23,6 @@ export default function App() {
   useEffect(() => {
     const saved = localStorage.getItem("city");
     if (saved) setCity(JSON.parse(saved));
-    else setShowModal(true);
   }, []);
 
   // ha város van, kérjük le az előrejelzést
