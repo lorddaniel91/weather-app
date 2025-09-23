@@ -1,42 +1,216 @@
+/* Figma-szerű világos, kék gradient + fehér tipó */
+:root {
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body,
 #root {
-  max-width: 1280px;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Arial;
+  color: #fff;
+  background: linear-gradient(180deg, #8ec5fc 0%, #90caf9 40%, #9bd1f9 100%);
+}
+
+/* Layout */
+.app {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 32px 20px 48px;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.layout {
+  display: grid;
+  gap: 36px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Fejléc */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.linklike {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.linklike:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
+/* Kártya */
 .card {
-  padding: 2em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-radius: 22px;
+  padding: 16px 18px;
+  backdrop-filter: blur(2px);
+}
+.card.dim {
+  opacity: 0.9;
 }
 
-.read-the-docs {
-  color: #888;
+/* Aktuális blokk */
+.curr-temp {
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.curr-desc {
+  margin-top: 4px;
+  font-size: 18px;
+  opacity: 0.95;
+}
+.coords {
+  margin-top: 8px;
+  opacity: 0.8;
+  font-size: 13px;
+}
+
+/* Lista (7 nap) */
+.section-title {
+  margin: 0 0 10px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.days {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.day {
+  display: grid;
+  grid-template-columns: 80px 1fr 70px 120px; /* nap • leírás • % • min/max */
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 14px;
+}
+.day:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.day-name {
+  font-weight: 600;
+}
+.day-temps {
+  text-align: right;
+}
+.tmax {
+  font-weight: 700;
+  margin-right: 6px;
+}
+.tmin {
+  opacity: 0.9;
+}
+.day-pop {
+  opacity: 0.95;
+}
+
+/* Ikon illesztés */
+.icon {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* Chart kártya */
+.chart-card {
+  padding: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 22px;
+}
+.chart-inner {
+  padding: 16px;
+  height: 280px;
+}
+
+/* Hibák / állapot */
+.error {
+  color: #ffe2e0;
+  font-weight: 600;
+}
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+.modal {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  width: min(640px, 100%);
+  padding: 16px;
+  color: #fff;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  outline: none;
+}
+button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+button.ghost {
+  opacity: 0.9;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  max-height: 300px;
+  overflow: auto;
+}
+.result-item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #fff;
 }
