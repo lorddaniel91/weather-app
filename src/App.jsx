@@ -1,3 +1,9 @@
+/**
+ * - Város betöltése localStorage-ból (induláskor).
+ * - Ha nincs város: megnyitjuk a CityModal-t.
+ * - Város kijelölésekor elmentjük (localStorage), majd lekérjük az időjárást.
+ * - Bal oldal: aktuális állapot. Jobb oldal: 7 nap + grafikon.
+ */
 import { useEffect, useState } from "react";
 import CityModal from "./components/CityModal";
 import DailyList from "./components/DailyList";
@@ -29,7 +35,7 @@ export default function App() {
       try {
         const f = await getForecast(city.lat, city.lon);
         setForecast(f);
-      } catch (e) {
+      } catch {
         setErr("Nem sikerült lekérni az időjárást.");
       } finally {
         setLoading(false);
@@ -48,22 +54,26 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <h1>Időjárás</h1>
-        <button className="linklike" onClick={() => setShowModal(true)}>
-          {city ? `${city.name} módosítása` : "Város kiválasztása"}
-        </button>
+        <div className="actions">
+          <button className="linklike" onClick={() => setShowModal(true)}>
+            {city ? `${city.name} módosítása` : "Város kiválasztása"}
+          </button>
+        </div>
       </header>
 
       <div className="layout">
-        {/* Bal oszlop: aktuális */}
+        {/* Bal oszlop: aktuális állapot */}
         <div>
           {city ? (
-            <div className="card">
+            <section className="section">
               <h2 className="section-title">
                 {city.name}
                 {city.admin1 ? `, ${city.admin1}` : ""} — {city.country}
               </h2>
+
               {loading && <p>Betöltés…</p>}
               {err && <p className="error">{err}</p>}
+
               {!loading && !err && forecast?.current && (
                 <>
                   <div className="curr-temp">
@@ -75,14 +85,11 @@ export default function App() {
                     </span>
                     {codeToLabel(forecast.current.code)}
                   </div>
-                  <div className="coords">
-                    Koordináták: {city.lat.toFixed(3)}, {city.lon.toFixed(3)}
-                  </div>
                 </>
               )}
-            </div>
+            </section>
           ) : (
-            <div className="card dim">Nincs még város kiválasztva.</div>
+            <section className="section">Nincs még város kiválasztva.</section>
           )}
         </div>
 
@@ -90,10 +97,11 @@ export default function App() {
         <div>
           {!loading && !err && forecast?.days?.length > 0 && (
             <>
-              <div className="card">
+              <section className="section">
                 <h3 className="section-title">7 napos előrejelzés</h3>
                 <DailyList days={forecast.days} />
-              </div>
+              </section>
+
               <div className="chart-card">
                 <div className="chart-inner">
                   <TempChart days={forecast.days} />
@@ -109,6 +117,7 @@ export default function App() {
         onClose={() => setShowModal(false)}
         onSelect={handleSelectCity}
       />
+      <footer className="footer">Jelentkező neve : Rácz Dániel</footer>
     </div>
   );
 }

@@ -1,14 +1,24 @@
+/**
+ * CityModal
+ * - Felugró ablak város kereséséhez és kiválasztásához.
+ * - A keresés Open-Meteo geocoding API-val történik.
+ * - A kiválasztott várost a szülő komponensnek adjuk vissza (onSelect),
+ *   ott történik a localStorage mentés és az időjárás lekérés indítása.
+ */
 import { useState } from "react";
 import { searchCities } from "../services/openMeteo";
 
 export default function CityModal({ isOpen, onClose, onSelect }) {
+  //állapotok: lekérdezés szöveg, találatok, töltés, hiba
   const [q, setQ] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
+  // ha a modal nincs nyitva, semmit nem renderelünk
   if (!isOpen) return null;
 
+  // Keresés indítása
   async function handleSearch(e) {
     e.preventDefault();
     setErr("");
@@ -42,8 +52,10 @@ export default function CityModal({ isOpen, onClose, onSelect }) {
           </button>
         </form>
 
+        {/* Hibaüzenet (ha van) */}
         {err && <p className="error">{err}</p>}
 
+        {/* Találatok listázása: gombként, hogy kattintásra visszaadhassa a választást */}
         <ul className="results">
           {results.map((c) => (
             <li key={c.id}>

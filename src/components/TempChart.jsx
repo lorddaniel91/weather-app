@@ -1,3 +1,9 @@
+/**
+ * TempChart
+ * - Recharts vonaldiagram a napi maximum hőmérsékletekről.
+ * - ResponsiveContainer: a szülő elem méretéhez igazodik.
+ * - Fehér témájú tengely/rács az ajánlott Figma mintára.
+ */
 import {
   LineChart,
   Line,

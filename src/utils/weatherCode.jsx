@@ -1,4 +1,8 @@
-// WMO kód → magyar címke + ikon (lucide-react)
+/**
+ * weatherCode
+ * - World Meteorological Organization kódok → magyar címke + kirajzolható ikon (lucide-react).
+ * - Így a komponenseknek nem kell a kódtáblát ismerniük.
+ */
 import {
   Sun,
   Cloud,

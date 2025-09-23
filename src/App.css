@@ -1,95 +1,118 @@
-/* Figma-szerű világos, kék gradient + fehér tipó */
-:root {
-  color-scheme: light;
-}
+/* ---------- Alap / háttér ---------- */
 * {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
+  width: 100%;
 }
 body {
   margin: 0;
+  min-height: 100svh;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     Arial;
   color: #fff;
   background: linear-gradient(180deg, #8ec5fc 0%, #90caf9 40%, #9bd1f9 100%);
+  background-attachment: fixed;
 }
 
-/* Layout */
+/* ---------- Konténer, fejléc ---------- */
 .app {
-  max-width: 1100px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding: 32px 20px 48px;
+  padding: 40px 20px 72px;
+  display: flex;
+  flex-direction: column;
 }
-.layout {
-  display: grid;
-  gap: 36px;
+
+.topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.topbar h1 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-align: center;
 }
 @media (min-width: 900px) {
-  .layout {
-    grid-template-columns: 320px 1fr;
-    align-items: start;
+  .topbar h1 {
+    font-size: 56px;
+  }
+}
+@media (max-width: 899px) {
+  .topbar h1 {
+    font-size: 36px;
   }
 }
 
-/* Fejléc */
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
 .linklike {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.35);
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
   cursor: pointer;
 }
 .linklike:hover {
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Kártya */
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-radius: 22px;
-  padding: 16px 18px;
-  backdrop-filter: blur(2px);
+/* ---------- Kétoszlopos layout ---------- */
+.layout {
+  display: grid;
+  width: 100%;
+  max-width: 904px;
+  margin: 0 auto;
+  grid-template-columns: 320px 520px;
+  gap: 64px;
 }
-.card.dim {
-  opacity: 0.9;
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: 320px 520px;
+    gap: 64px;
+  }
 }
-
-/* Aktuális blokk */
-.curr-temp {
-  font-size: 56px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
-.curr-desc {
-  margin-top: 4px;
-  font-size: 18px;
-  opacity: 0.95;
-}
-.coords {
-  margin-top: 8px;
-  opacity: 0.8;
-  font-size: 13px;
+@media (max-width: 999px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
-/* Lista (7 nap) */
+/* ---------- Szekciók ---------- */
+.section {
+  padding: 0 2px;
+}
+.section + .section {
+  margin-top: 18px;
+}
 .section-title {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-weight: 700;
   letter-spacing: 0.2px;
 }
+
+/* ---------- Aktuális időjárás ---------- */
+.curr-temp {
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 800;
+}
+.curr-desc {
+  margin-top: 6px;
+  font-size: 18px;
+  opacity: 0.95;
+}
+
+/* ---------- 7 napos lista ---------- */
 .days {
   list-style: none;
   margin: 0;
@@ -97,63 +120,62 @@ body {
   display: grid;
   gap: 8px;
 }
+
 .day {
   display: grid;
-  grid-template-columns: 80px 1fr 70px 120px; /* nap • leírás • % • min/max */
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 14px;
+  padding: 6px 0;
+  border-radius: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
 }
 .day:hover {
   background: rgba(255, 255, 255, 0.06);
 }
+
 .day-name {
   font-weight: 600;
+  text-transform: capitalize;
+  text-align: left;
+  padding-right: 8px;
+}
+.day-pop {
+  text-align: center;
+  justify-self: center;
+  opacity: 0.95;
 }
 .day-temps {
   text-align: right;
-}
-.tmax {
-  font-weight: 700;
-  margin-right: 6px;
-}
-.tmin {
-  opacity: 0.9;
-}
-.day-pop {
-  opacity: 0.95;
+  justify-self: end;
+  white-space: nowrap;
+  padding-left: 8px;
 }
 
-/* Ikon illesztés */
-.icon {
-  display: inline-flex;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-/* Chart kártya */
+/* ---------- Grafikon doboz ---------- */
 .chart-card {
   padding: 0;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.08);
   border: 1.5px solid rgba(255, 255, 255, 0.7);
-  border-radius: 22px;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .chart-inner {
   padding: 16px;
   height: 280px;
 }
 
-/* Hibák / állapot */
+/* ---------- Hibák ---------- */
 .error {
   color: #ffe2e0;
   font-weight: 600;
 }
+
+/* ---------- Modal ---------- */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: linear-gradient(180deg, #8ec5fc 0%, #90caf9 40%, #9bd1f9 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,6 +195,8 @@ body {
   gap: 8px;
   margin: 12px 0;
 }
+
+/* ---------- Form elemek ---------- */
 input {
   flex: 1;
   padding: 10px 12px;
@@ -190,13 +214,12 @@ button {
   color: #fff;
   cursor: pointer;
 }
-button.ghost {
-  opacity: 0.9;
-}
 button:disabled {
   opacity: 0.6;
   cursor: default;
 }
+
+/* ---------- Keresési eredmények ---------- */
 .results {
   list-style: none;
   margin: 0;
@@ -213,4 +236,25 @@ button:disabled {
   flex-direction: column;
   gap: 2px;
   color: #fff;
+}
+/* ---------- Footer ---------- */
+.footer {
+  position: fixed;
+  left: calc(50% - 904px / 2);
+  bottom: 18px;
+
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 940px) {
+  .footer {
+    left: 16px;
+    bottom: 14px;
+    font-size: 11px;
+  }
 }

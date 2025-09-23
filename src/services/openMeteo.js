@@ -1,6 +1,11 @@
+/**
+ * Open-Meteo service
+ * - Itt vannak a fetch hívások. A komponensek nem ismerik az API-t,
+ *   csak ezt a két függvényt hívják (separation of concerns).
+ */
 // Városkeresés a geocoding API-val
 export async function searchCities(query) {
-  if (!query?.trim()) return []; // üres keresésre ne kérjünk semmit
+  if (!query?.trim()) return []; // üres keresésre ne kérjen semmit
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
     query
   )}&count=5&language=hu&format=json`;
